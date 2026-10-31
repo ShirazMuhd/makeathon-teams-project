@@ -1,0 +1,24 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    ports: ["27017:27017"]
+    volumes: ["mongo_data:/data/db"]
+  server:
+    build: ./server
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/brightloop
+      JWT_SECRET: change-me-in-production
+      CLIENT_URL: http://localhost:5173
+      ADMIN_EMAIL: admin@brightloop.local
+      ADMIN_PASSWORD: AdminPass!234
+    ports: ["5000:5000"]
+    depends_on: [mongo]
+  client:
+    build: ./client
+    ports: ["5173:80"]
+    depends_on: [server]
+volumes:
+  mongo_data:

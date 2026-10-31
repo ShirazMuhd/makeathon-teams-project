@@ -1,0 +1,2 @@
+import app from './app.js';import {connectDB} from './config/db.js';import {env} from './config/env.js';import {startJobs} from './jobs/scheduler.js';import User from './models/User.js';import bcrypt from 'bcryptjs';
+await connectDB(env.MONGO_URI);if(!await User.exists({role:'admin'})){await User.create({name:env.ADMIN_NAME,email:env.ADMIN_EMAIL,passwordHash:await bcrypt.hash(env.ADMIN_PASSWORD,12),role:'admin'});console.log(`Seed admin: ${env.ADMIN_EMAIL}`);}startJobs();app.listen(env.PORT,()=>console.log(`Brightloop API running on ${env.PORT}`));

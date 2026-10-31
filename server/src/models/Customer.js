@@ -1,0 +1,2 @@
+import mongoose from 'mongoose';
+const schema=new mongoose.Schema({name:{type:String,required:true},email:{type:String,lowercase:true,index:true},phone:String,company:String,billingAddress:{line1:String,city:String,state:String,postalCode:String,country:String},taxId:String,userId:{type:mongoose.Schema.Types.ObjectId,ref:'User'}},{timestamps:true});export default mongoose.model('Customer',schema);
